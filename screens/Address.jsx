@@ -16,9 +16,6 @@ const Address = () => {
   const [postalCode, setPostalCode] = useState('');
   const {userId, setUserId} = useContext(UserType);
   const navigation = useNavigation();
-
-
-
   async function handleAddAddress() {
     const address = {
       country,
