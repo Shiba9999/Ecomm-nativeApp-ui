@@ -1,7 +1,7 @@
 import {View, Text, Pressable, Image} from 'react-native';
 import React, {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {addToCart} from '../redux/CartReducer';
+import {useDispatch} from 'react-redux';
+import {addToCart} from '../../redux/CartReducer';
 import {useNavigation} from '@react-navigation/native';
 
 const ProductItem = ({item}) => {
@@ -16,10 +16,9 @@ const ProductItem = ({item}) => {
     }, 1000);
   };
 
-
   return (
     <Pressable
-    onPress={() => navigation.navigate('Info', item)}
+      onPress={() => navigation.navigate('Info', item)}
       style={{
         marginHorizontal: 20,
         marginVertical: 25,

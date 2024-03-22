@@ -2,7 +2,6 @@ import {
   Alert,
   Image,
   KeyboardAvoidingView,
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -11,7 +10,6 @@ import {
 import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import {useNavigation} from '@react-navigation/native';
@@ -36,13 +34,13 @@ const ForgetPasswordScreen = () => {
         user,
       );
       const val = await res.data;
-  
-        if (val) {
-          Alert.alert('Password changed Successfully'); 
-          setEmail('');
-          setNewPassword('');
-          navigation.navigate('Login');
-        }
+
+      if (val) {
+        Alert.alert('Password changed Successfully');
+        setEmail('');
+        setNewPassword('');
+        navigation.navigate('Login');
+      }
     } catch (err) {
       console.log('my err', err);
     }

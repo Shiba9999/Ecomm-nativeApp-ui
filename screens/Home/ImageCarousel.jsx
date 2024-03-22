@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   image: {
     width: width,
     height: 200,
-    resizeMode: 'cover', // Ensure the image covers the entire width
+    resizeMode: 'cover', 
   },
   dots: {
     flexDirection: 'row',

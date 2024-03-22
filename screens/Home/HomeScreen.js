@@ -1,13 +1,11 @@
-import React, {useCallback, useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   Pressable,
   SafeAreaView,
-  TextInput,
   Image,
   StyleSheet,
-  Button,
 } from 'react-native';
 import {ScrollView} from 'react-native-virtualized-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,12 +22,12 @@ import ListScreen from './ListScreen';
 import {useSelector, useDispatch} from 'react-redux';
 import ModalScreens from './ModalScreens';
 import HeaderScreen from './HeaderScreen';
-import {UserType} from '../UserContext';
+import {setUserId} from '../../redux/UserReducer';
+
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState('jewelery');
-
   const [selectedAddress, setSelectedAddress] = useState('');
   const [items, setItems] = useState([
     {label: "Men's clothing", value: "men's clothing"},
@@ -37,8 +35,13 @@ const HomeScreen = () => {
     {label: 'electronics', value: 'electronics'},
     {label: "women's clothing", value: "women's clothing"},
   ]);
+
+  const dispatch = useDispatch();
+
+  const userId = useSelector(state => state.user.userId);
+
   const [modalVisible, setModalVisible] = useState(false);
-  const {userId, setUserId} = useContext(UserType);
+
   const navigation = useNavigation();
   async function fetchProducts() {
     try {
@@ -55,9 +58,8 @@ const HomeScreen = () => {
       if (token) {
         const tokenParts = token.split('.');
         const payload = JSON.parse(decode(tokenParts[1]));
-
         const userId = payload.id;
-        setUserId(userId);
+        dispatch(setUserId(userId));
       } else {
         console.log('Token not found');
       }
@@ -65,6 +67,8 @@ const HomeScreen = () => {
       console.log('Error decoding token:', error);
     }
   }
+
+  console.log('userId from home', userId);
 
   useEffect(() => {
     fetchUser();
@@ -155,19 +159,19 @@ const HomeScreen = () => {
       ],
     },
   ];
+
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+
   function handleAddressChange(newAddress) {
     setSelectedAddress(newAddress);
   }
-
   return (
     <>
       <SafeAreaView className="flex-1 bg-white pt-1 ">
         <ScrollView>
           <HeaderScreen />
-
           <Pressable
             onPress={toggleModal}
             className="bg-teal-100 rounded-md flex-row  p-3  ">
@@ -257,6 +261,8 @@ const HomeScreen = () => {
           setSelectedAddress={handleAddressChange}
           modalVisible={modalVisible}
           toggleModdalVisible={toggleModal}
+          userId={userId}
+          
         />
       </View>
     </>

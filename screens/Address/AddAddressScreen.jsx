@@ -1,15 +1,16 @@
-import {View, Text, ScrollView, Pressable, Button} from 'react-native';
-import React, {useCallback, useEffect, useState, useContext} from 'react';
-import HeaderScreen from './HeaderScreen';
+import {View, Text, ScrollView, Pressable} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import HeaderScreen from '../Home/HeaderScreen';
 import Feather from 'react-native-vector-icons/Feather';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {UserType} from '../UserContext';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 const AddAddressScreen = () => {
   const navigation = useNavigation();
   const [address, setAddresses] = useState([]);
-  const {userId, setUserId} = useContext(UserType);
+
+  const userId = useSelector(state => state.user.userId);
 
   const fetchData = async () => {
     try {
@@ -21,7 +22,7 @@ const AddAddressScreen = () => {
         setAddresses(data);
       }
     } catch (error) {
-      console.log('error', error);
+      console.log('error address', error);
     }
   };
 
@@ -73,8 +74,6 @@ const AddAddressScreen = () => {
                     {item.postalCode}
                   </Text>
                 </View>
-
-              
               </View>
             ))
           ) : (

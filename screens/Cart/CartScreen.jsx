@@ -1,10 +1,14 @@
 import {View, Text, ScrollView, Pressable, Image} from 'react-native';
 import React from 'react';
-import HeaderScreen from './HeaderScreen';
+import HeaderScreen from '../Home/HeaderScreen';
 import {useSelector, useDispatch} from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { decrementQuantity, incrementQuantity, removeFromCart } from '../redux/CartReducer';
-import { useNavigation } from '@react-navigation/native';
+import {
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from '../../redux/CartReducer';
+import {useNavigation} from '@react-navigation/native';
 
 const CartScreen = () => {
   const cart = useSelector(state => state.cart.cart);
@@ -18,14 +22,14 @@ const CartScreen = () => {
     return totalPrice;
   }
 
-  function HandleIncrease(item){
-    dispatch(incrementQuantity(item))
+  function HandleIncrease(item) {
+    dispatch(incrementQuantity(item));
   }
-  function HandleDecrease(item){
-    dispatch(decrementQuantity(item))
+  function HandleDecrease(item) {
+    dispatch(decrementQuantity(item));
   }
-  function handleRemoveItem(item){
-    dispatch(removeFromCart(item))
+  function handleRemoveItem(item) {
+    dispatch(removeFromCart(item));
   }
   return (
     <ScrollView className="mt-1">
@@ -34,8 +38,8 @@ const CartScreen = () => {
         <Text className="text-black text-lg">SubTotal: ${getTotalPrice()}</Text>
         <Text className="text-black mt-2">Emi Details Available</Text>
         <Pressable
-        onPress={()=>navigation.navigate('Confirm')}
-        className="bg-yellow-500 rounded-lg w-auto  flex items-center justify-center mt-5 h-10">
+          onPress={() => navigation.navigate('Confirm')}
+          className="bg-yellow-500 rounded-lg w-auto  flex items-center justify-center mt-5 h-10">
           <Text className="text-white">
             Proceed to Buy ({cart.length}) items
           </Text>
@@ -65,16 +69,17 @@ const CartScreen = () => {
               </View>
 
               <Pressable className="flex-1 items-center justify-center gap-3">
-             
-
                 <Pressable className="mr-6">
                   <View className="flex-row items-center justify-center gap-2 ">
                     <AntDesign
-                        onPress={()=>HandleDecrease(item)}
-                    name="minus" size={24} color="black" />
+                      onPress={() => HandleDecrease(item)}
+                      name="minus"
+                      size={24}
+                      color="black"
+                    />
                     <Text className="text-black"> {item.quantity}</Text>
                     <AntDesign
-                    onPress={()=>HandleIncrease(item)}
+                      onPress={() => HandleIncrease(item)}
                       name="plus"
                       size={24}
                       color="black"
@@ -83,11 +88,9 @@ const CartScreen = () => {
                   </View>
                 </Pressable>
 
-
                 <Pressable
-                onPress={()=>handleRemoveItem(item)}
-                
-                className="mr-6">
+                  onPress={() => handleRemoveItem(item)}
+                  className="mr-6">
                   <View>
                     <AntDesign name="delete" size={24} color="black" />
                   </View>

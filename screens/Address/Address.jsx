@@ -1,11 +1,9 @@
 import {Alert, Pressable} from 'react-native';
 import {View, Text, ScrollView, TextInput} from 'react-native';
-import React, {useCallback, useEffect, useState, useContext} from 'react';
-// import {decode} from 'base-64';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-import {UserType} from '../UserContext';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 const Address = () => {
   const [country, setCountry] = useState('India');
   const [name, setName] = useState('');
@@ -14,7 +12,8 @@ const Address = () => {
   const [street, setStreet] = useState('');
   const [landmark, setLandMark] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const {userId, setUserId} = useContext(UserType);
+  const userId = useSelector(state => state.user.userId);
+
   const navigation = useNavigation();
   async function handleAddAddress() {
     const address = {
@@ -43,26 +42,14 @@ const Address = () => {
         setMobileNo('');
         setHouseNo('');
 
-        setTimeout(()=>{
-          navigation.goBack()
-        },500)
-      
+        setTimeout(() => {
+          navigation.goBack();
+        }, 500);
       }
     } catch (err) {
       console.log('my err', err);
     }
   }
-
-  // const handleLogout = async () => {
-  //   try {
-  //     // Clear the authentication token from AsyncStorage
-  //     await AsyncStorage.removeItem('authToken');
-  //     // Navigate the user back to the login screen
-  //     navigation.navigate('Login');
-  //   } catch (error) {
-  //     console.log('Error logging out:', error);
-  //   }
-  // };
   return (
     <ScrollView className="mt-2 ">
       <View className="p-3">
@@ -158,14 +145,6 @@ const Address = () => {
             Add Address
           </Text>
         </Pressable>
-
-        {/* <Pressable
-          onPress={handleLogout}
-          className="bg-yellow-500 rounded-full p-2 mt-6 items-center justify-center w-full h-12 ">
-          <Text className="text-white text-md font-bold font-sans">
-           Logout
-          </Text>
-        </Pressable> */}
       </View>
     </ScrollView>
   );

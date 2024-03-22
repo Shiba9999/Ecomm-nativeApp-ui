@@ -1,42 +1,55 @@
 import {View, Text, Pressable, ScrollView} from 'react-native';
-import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BottomModal, SlideAnimation, ModalContent} from 'react-native-modals';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {UserType} from '../UserContext';
 const ModalScreens = ({
   modalVisible,
   toggleModdalVisible,
   setSelectedAddress,
-  selectedAddress,
+  userId,
 }) => {
-  const {userId, setUserId} = useContext(UserType);
+
+  console.log("userId from modal screen",userId);
   const navigation = useNavigation();
+
   const [address, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+
+  const fetchData = async () => {
+    try {
         const response = await axios.get(
           `http://192.168.29.16:8000/addresses/${userId}`,
         );
         const data = await response.data;
-
+        console.log("data from modal screen",data);
         setAddresses(data);
         setLoading(false);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
+      
+    } catch (error) {
+      console.log('error from modal screen', error);
+    }
+  };
+
+  useEffect(() => {
     if (userId !== null) {
       fetchData();
     }
   }, [userId]);
 
+  useEffect(() => {
+    if (modalVisible) {
+      fetchData();
+    }
+  }, [modalVisible]);
+
+
+
+  
   return (
     <BottomModal
       onBackdropPress={() => toggleModdalVisible(!modalVisible)}
@@ -97,7 +110,7 @@ const ModalScreens = ({
                     borderWidth: 1,
                     marginHorizontal: 5,
                     marginRight:
-                      index !== address.addresses.length - 1 ? 10 : 5, // Add marginRight except for the last item
+                      index !== address.addresses.length - 1 ? 10 : 5,
                     padding: 10,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -140,7 +153,7 @@ const ModalScreens = ({
               borderColor: 'gray',
               borderWidth: 1,
               marginHorizontal: 5,
-              marginRight: 5, // Add marginRight for consistency
+              marginRight: 5,
               padding: 10,
               alignItems: 'center',
               justifyContent: 'center',

@@ -1,4 +1,4 @@
-import {View, Text, TextInput, Pressable} from 'react-native';
+import {View, TextInput, Pressable} from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';

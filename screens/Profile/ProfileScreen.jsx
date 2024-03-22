@@ -1,17 +1,18 @@
 import {View, Text, Pressable, Image, ScrollView} from 'react-native';
-import React, {useCallback, useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {UserType} from '../UserContext';
-import HeaderScreen from './HeaderScreen';
+import HeaderScreen from '../Home/HeaderScreen';
+import {useSelector} from 'react-redux';
 
 const ProfileScreen = () => {
-  const {userId, setUserId} = useContext(UserType);
+  const userId = useSelector(state => state.user.userId);
   const [profileName, setProfileName] = useState(' ');
   const [myOrders, setMyOrders] = useState('');
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('authToken');
@@ -78,8 +79,6 @@ const ProfileScreen = () => {
             {myOrders.length > 0 ? (
               myOrders.map((eachOrder, index) =>
                 eachOrder.products.map((eachProduct, index) => (
-                  //my code starts here
-
                   <View
                     key={index}
                     className="mx-auto mt-1 mb-5 w-80 rounded-lg overflow-hidden shadow-md duration-300  bg-white">

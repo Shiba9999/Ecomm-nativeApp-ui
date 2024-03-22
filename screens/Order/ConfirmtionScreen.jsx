@@ -1,20 +1,18 @@
 import {View, Text, Pressable, ScrollView, Alert} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {UserType} from '../UserContext';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {cleanCart} from '../redux/CartReducer';
+import {cleanCart} from '../../redux/CartReducer';
 const ConfirmtionScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [address, setAddresses] = useState([]);
-  const {userId, setUserId} = useContext(UserType);
+  const userId = useSelector(state => state.user.userId);
   const [selectedAddress, setSelectedAddress] = useState('');
   const steps = [
     {title: 'Address', content: 'Address Form'},
@@ -34,11 +32,11 @@ const ConfirmtionScreen = () => {
       );
       if (response) {
         const data = await response.data;
-        
+
         setAddresses(data);
       }
     } catch (error) {
-      console.log('error', error);
+      console.log('error from confirmation', error);
     }
   };
 
@@ -60,11 +58,10 @@ const ConfirmtionScreen = () => {
         orderData,
       );
       const data = await response.data;
-   
+
       if (response.status === 200) {
         navigation.navigate('Order');
         dispatch(cleanCart());
-       
       }
     } catch (err) {
       console.log('err', err);
