@@ -40,7 +40,6 @@ const ProfileScreen = () => {
         `http://192.168.29.16:8000/orders/${userId}`,
       );
       setMyOrders(response.data.orders);
-      console.log(response.data);
       setLoading(false);
     } catch (error) {
       console.log(error);

@@ -68,7 +68,7 @@ const HomeScreen = () => {
     }
   }
 
-  console.log('userId from home', userId);
+
 
   useEffect(() => {
     fetchUser();

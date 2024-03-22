@@ -13,7 +13,6 @@ const ModalScreens = ({
   userId,
 }) => {
 
-  console.log("userId from modal screen",userId);
   const navigation = useNavigation();
 
   const [address, setAddresses] = useState([]);

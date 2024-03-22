@@ -33,7 +33,6 @@ const Address = () => {
       if (res) {
         Alert.alert('Address Added Successfully');
         const val = await res.data;
-        console.log('val', val);
         setName('');
         setStreet('');
         setPostalCode('');
