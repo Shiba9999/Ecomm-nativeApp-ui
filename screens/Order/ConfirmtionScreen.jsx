@@ -8,6 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {cleanCart} from '../../redux/CartReducer';
+import RazorpayCheckout from 'react-native-razorpay';
 const ConfirmtionScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -75,6 +76,43 @@ const ConfirmtionScreen = () => {
     });
     return totalPrice;
   }
+  const pay = async () => {
+    try {
+      const options = {
+        description: 'Credits towards consultation',
+        image: 'https://i.imgur.com/3g7nmJC.png',
+        currency: 'INR',
+        key: 'rzp_test_qO5HeYar9fZXUQ',
+        amount: getTotalPrice() * 100,
+        name: 'Amazon',
+        prefill: {
+          email: 'void@razorpay.com',
+          contact: '9191919191',
+          name: 'Razorpay Software',
+        },
+        theme: {color: '#F37254'},
+      };
+
+      const data = await RazorpayCheckout.open(options);
+      const orderData = {
+        userId,
+        cartItems: cart,
+        shippingAddress: selectedAddress,
+        totalPrice: getTotalPrice(),
+        paymentMethod: `card ${data.razorpay_payment_id}`,
+      };
+      const response = await axios.post(
+        'http://192.168.29.16:8000/orders',
+        orderData,
+      );
+      if (response.status === 200) {
+        navigation.navigate('Order');
+        dispatch(cleanCart());
+      }
+    } catch (err) {
+      console.log('errrr', err);
+    }
+  };
 
   return (
     <ScrollView className="mt-4">
@@ -306,7 +344,7 @@ const ConfirmtionScreen = () => {
                     },
                     {
                       text: 'OK',
-                      // onPress: () => pay(),
+                      onPress: () => pay(),
                     },
                   ]);
                 }}
@@ -318,6 +356,7 @@ const ConfirmtionScreen = () => {
 
             <Text className="text-black">UPI / Credit or debit card</Text>
           </View>
+
           <Pressable
             onPress={() => setCurrentStep(3)}
             style={{
